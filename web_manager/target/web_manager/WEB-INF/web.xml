@@ -36,7 +36,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>springmvc</servlet-name>
-    <url-pattern>*.do</url-pattern>
+    <url-pattern>*.do</url-pattern><!--访问地址后面+.do-->
   </servlet-mapping>
 
 </web-app>
