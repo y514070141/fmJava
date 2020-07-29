@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
     <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="../plugins/pageination/zpageNav.css"><!--1.vue分页css-->
 	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
 </head>
@@ -61,6 +62,10 @@
 
 				  </tbody>
 			  </table>
+			<!--分页   数据表下面 div里面-->
+			<zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
+					  v-bind:max-page="maxPage"  v-on:pagehandler="pageHandler">
+			</zpagenav>
 		</div>
 	 </div>
 	<!-- 编辑窗口 -->
@@ -94,5 +99,6 @@
 </body>
 <script type="text/javascript" src="../plugins/vue/vuejs-2.5.16.js"></script><!--vue.js使用-->
 <script type="text/javascript" src="../plugins/vue/axios-0.18.0.js"></script><!--网络请求的-->
+<script type="text/javascript" src="../plugins/pageination/zpageNav.js"></script><!--2.vue分页js-->
 <script type="text/javascript" src="../js/brand.js"></script><!--自己写的后台数据-->
 </html>
