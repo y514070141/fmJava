@@ -2,7 +2,10 @@ package com.fmjava.core.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.fmjava.core.dao.good.BrandDao;
+import com.fmjava.core.pojo.entity.pageResult;
 import com.fmjava.core.pojo.good.Brand;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -16,5 +19,13 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public List<Brand> findAllBrand() {
         return brandDao.selectByExample(null);
+    }
+
+    @Override
+    public pageResult findPage(Integer page, Integer pageSize) {
+        PageHelper.startPage(page, pageSize);
+        Page<Brand> brandPage=(Page<Brand>)brandDao.selectByExample(null);
+        pageResult pageResult = new pageResult(brandPage.getTotal(), brandPage.getResult());
+        return pageResult;
     }
 }
