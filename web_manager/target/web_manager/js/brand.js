@@ -27,12 +27,12 @@ new Vue({
                console.log(reason);
            });
        },
-        pageHandler:function (page) {//分页方法 参数是当前页码
+        pageHandler:function (page) {  //分页方法 参数是当前页码
            this.page=page;
            //点击每页的时候刷新点击页check的状态   不会！
            // alert(page)
            var _this=this;
-            axios.post("/brand/findPage.do?page="+_this.page+"&pageSize="+_this.pageSize,_this.searchBrand).then(function (response) {
+            axios.post("/brand/findPage.do?page="+this.page+"&pageSize="+this.pageSize,this.searchBrand).then(function (response) {
                 console.log(response.data);
                 //给vue的参数赋值
                 _this.total=response.data.total;

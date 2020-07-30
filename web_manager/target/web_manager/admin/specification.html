@@ -10,12 +10,13 @@
     <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
     <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="../plugins/pageination/zpageNav.css">
 	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
 </head>
 
 <body class="hold-transition skin-red sidebar-mini" >
-
+<div id="root">
 	<div class="box-header with-border" style="height: 64.5px;line-height: 54px;">
 		<h3 class="box-title">规格管理</h3>
 	</div>
@@ -33,8 +34,8 @@
 				</div>
 			</div>
 			<div class="box-tools pull-right">
-				<div class="has-feedback">规格名称：<input  >
-					<button class="btn btn-default" >查询</button>
+				<div class="has-feedback">规格名称：<input  v-model="searchSpec.specName">
+					<button class="btn btn-default" @click="pageHandler(1)">查询</button>
 				</div>
 			</div>
 			<!--数据列表-->
@@ -50,10 +51,10 @@
 					  </tr>
 				  </thead>
 				  <tbody>
-					  <tr >
+					  <tr v-for="specItem in specList">
 						  <td><input  type="checkbox" ></td>
-						  <td>1</td>
-						  <td>颜色</td>
+						  <td>{{specItem.id}}</td>
+						  <td>{{specItem.specName}}</td>
 						  <td class="text-center">
 							  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal">修改</button>
 						  </td>
@@ -69,6 +70,10 @@
 				  </tbody>
 			</table>
 		</div>
+		<!--分页   数据表下面 div里面-->
+		<zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
+				  v-bind:max-page="maxPage"  v-on:pagehandler="pageHandler">
+		</zpagenav>
 	</div>
 	<!-- 编辑窗口 -->
 	<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -138,7 +143,11 @@
 		  </div>
 		</div>
 	</div>
-
+</div>
 </body>
-
+<script type="text/javascript" src="../plugins/vue/vuejs-2.5.16.js"></script><!--vue.js使用-->
+<script type="text/javascript" src="../plugins/vue/axios-0.18.0.js"></script><!--网络请求的-->
+<script type="text/javascript" src="../plugins/vue/qs.js"></script><!--vue便利数组-->
+<script type="text/javascript" src="../plugins/pageination/zpageNav.js"></script><!--2.vue分页js-->
+<script type="text/javascript" src="../js/Specification.js"></script><!--自己写的后台数据-->
 </html>
