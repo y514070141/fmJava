@@ -28,7 +28,7 @@
 				<div class="form-group form-inline">
 					<div class="btn-group">
 						<button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" ><i class="fa fa-file-o"></i> 新建</button>
-						<button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
+						<button type="button" class="btn btn-default" title="删除" @click="deleteSpec()"><i class="fa fa-trash-o"></i> 删除</button>
 						<button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
 					</div>
 				</div>
@@ -52,11 +52,11 @@
 				  </thead>
 				  <tbody>
 					  <tr v-for="specItem in specList">
-						  <td><input  type="checkbox" ></td>
+						  <td><input  type="checkbox" @click="deleteSelected($event,specItem.id)"></td>
 						  <td>{{specItem.id}}</td>
 						  <td>{{specItem.specName}}</td>
 						  <td class="text-center">
-							  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal">
+							  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" @click="findSpecWithId(specItem.id)" data-target="#editModal">
 								  修改
 							  </button>
 						  </td>
@@ -82,12 +82,12 @@
 				<table class="table table-bordered table-striped"  width="800px">
 					<tr>
 						<td>规格名称</td>
-						<td><input  class="form-control" placeholder="规格名称" ></td>
+						<td><input  class="form-control" placeholder="规格名称" v-model="specEntity.spec.specName"></td>
 					</tr>
 				</table>
 				 <!-- 规格选项 -->
 				 <div class="btn-group">
-					  <button type="button" class="btn btn-default" title="新建" >
+					  <button type="button" class="btn btn-default" @click="addTableRow()" title="新建" >
 						  <i class="fa fa-file-o"></i>
 						  新增规格选项
 					  </button>
@@ -101,38 +101,17 @@
 						<tr/>
 						</thead>
 						<tbody>
-							<tr>
-							  <td><input  class="form-control" placeholder="规格选项"></td>
-							  <td><input  class="form-control" placeholder="排序"></td>
-							  <td><button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button></td>
+							<tr v-for="(specItem,index) in specEntity.specOption">
+							  <td><input v-model="specItem.optionName" class="form-control" placeholder="规格选项"></td>
+							  <td><input v-model="specItem.orders" class="form-control" placeholder="排序"></td>
+							  <td><button type="button" class="btn btn-default" @click="deleteTableRow(index)" title="删除" ><i class="fa fa-trash-o"></i> 删除</button></td>
 							</tr>
-							<tr>
-								<td>
-									<input  class="form-control" placeholder="规格选项">
-								</td>
-								<td>
-									<input  class="form-control" placeholder="排序">
-								</td>
-								<td>
-									<button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
-								</td>
-							  </tr>
-							<tr>
-								<td>
-									<input  class="form-control" placeholder="规格选项">
-								</td>
-								<td>
-									<input  class="form-control" placeholder="排序">
-								</td>
-								<td>
-									<button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
-								</td>
-							  </tr>
+
 						</tbody>
 				  </table>
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">保存</button>
+				<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" @click="saveSpecAndOption()">保存</button>
 				<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
 			</div>
 		  </div>
