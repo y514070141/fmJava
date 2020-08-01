@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -101,5 +102,10 @@ public class SpecificationServiceImpl implements specificationService{
 
         }
 
+    }
+
+    @Override
+    public List<Map> selectOneOptionList() {
+        return specificationDao.selectOneOptionList();
     }
 }

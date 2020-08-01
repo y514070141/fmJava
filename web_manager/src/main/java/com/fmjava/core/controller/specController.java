@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/spec")
 public class specController {
@@ -50,10 +53,18 @@ public class specController {
     @RequestMapping("/deleteSpec")
     public Result deleteSpec(Long [] ids){
         try{
-            specificationService.deleteSpec(ids);
-            return new Result("删除成功",true);
+            if(ids!=null){
+                specificationService.deleteSpec(ids);
+                return new Result("删除成功",true);
+            }
+            return new Result("请选择一行进行删除",true);
         }catch (Exception e){
             return new Result("删除失败",false);
         }
+    }
+
+    @RequestMapping("/selectOptionList")
+    public List<Map> selectOptionList(){
+        return specificationService.selectOneOptionList();
     }
 }

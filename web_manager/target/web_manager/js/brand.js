@@ -63,8 +63,10 @@ new Vue({
                        alert(response.data.message);
                        //刷新界面
                        _this.pageHandler(1);
+                       _this.brand={};
                    }else {
                        console.log(response.data.message);
+                       _this.brand={};
                    }
 
                }).catch(function (reason) {
@@ -116,5 +118,6 @@ new Vue({
     created:function () {//创建vue对象之后调用
         // this.findAllBrand();
         this.pageHandler(1);//初始化第一页
+        // this.brand={};
     }
 });

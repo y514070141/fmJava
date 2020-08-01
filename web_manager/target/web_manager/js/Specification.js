@@ -43,8 +43,6 @@ new Vue({
             var _this=this;
             axios.post(url,_this.specEntity)
                 .then(function (response) {
-                    console.log(123);
-                    alert(123);
                     if(response.data.success){
                         alert(response.data.message);
                         //新增之后 刷新界面 选项名字 和 选项卡对象集合

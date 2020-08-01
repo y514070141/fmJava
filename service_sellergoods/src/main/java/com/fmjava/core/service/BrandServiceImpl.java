@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Array;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -84,13 +85,23 @@ public class BrandServiceImpl implements BrandService {
 //            }
 //            }
             //方法二
-            BrandQuery brandQuery = new BrandQuery();
-            BrandQuery.Criteria criteria = brandQuery.createCriteria();
-            criteria.andIdIn(Arrays.asList(ids));
-            brandDao.deleteByExample(brandQuery);
-            return new Result("删除成功",true);
+            if(ids!=null){
+                BrandQuery brandQuery = new BrandQuery();
+                BrandQuery.Criteria criteria = brandQuery.createCriteria();
+                criteria.andIdIn(Arrays.asList(ids));
+                brandDao.deleteByExample(brandQuery);
+                return new Result("删除成功",true);
+            }
+            return new Result("请选中一行进行删除",false);
         }catch (Exception e){
             return new Result("删除失败",false);
         }
+    }
+
+    @Override
+    public List<Map> selectOptionList() {
+
+        return brandDao.selectOptionList();
+
     }
 }
