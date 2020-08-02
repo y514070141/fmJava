@@ -2,6 +2,7 @@ package com.fmjava.core.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.fmjava.core.dao.seller.SellerDao;
+import com.fmjava.core.pojo.entity.Result;
 import com.fmjava.core.pojo.entity.pageResult;
 import com.fmjava.core.pojo.seller.Seller;
 import com.fmjava.core.pojo.seller.SellerQuery;
@@ -49,5 +50,24 @@ public class SellerServiceImpl implements SellerService{
 
         Page<Seller> sellerPage=(Page<Seller>)sellerDao.selectByExample(Query);
         return new pageResult(sellerPage.getTotal(),sellerPage.getResult());
+    }
+
+    @Override
+    public Result updateStatusById(String sellerId,String status) {
+        try{
+
+            Seller seller = new Seller();
+            seller.setSellerId(sellerId);
+            seller.setStatus(status);
+            sellerDao.updateByPrimaryKeySelective(seller);
+            return new Result("审核成功",true);
+        }catch (Exception e){
+            return new Result("审核失败",false);
+        }
+    }
+
+    @Override
+    public Seller selectSellerById(String id) {
+        return sellerDao.selectByPrimaryKey(id);
     }
 }

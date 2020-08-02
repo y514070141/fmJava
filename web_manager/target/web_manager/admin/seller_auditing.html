@@ -56,8 +56,12 @@
 			  <td>{{entity.linkmanMobile}}</td>
 
 			  <td class="text-center">
-				  <button type="button" class="btn bg-olive btn-xs"
-						  data-toggle="modal" data-target="#sellerModal" >
+				  <button type="button"
+						  class="btn bg-olive btn-xs"
+						  data-toggle="modal"
+						  @click="detail(entity.sellerId)"
+
+						  data-target="#sellerModal" >
 					  详情
 				  </button>
 			  </td>
@@ -95,56 +99,56 @@
 				<div id="myTabContent" class="tab-content">
 					<div class="tab-pane active in" id="home">
 					  <br>
-					  <table class="table table-bordered table-striped"  width="800px">
-						<tr>
-							<td>公司名称</td>
-							<td>公司名称公司名称1</td>
-						</tr>
-						<tr>
-							<td>公司手机</td>
-							<td>138****5643</td>
-						</tr>
-						<tr>
-							<td>公司电话</td>
-							<td>025-1234567</td>
-						</tr>
-						<tr>
-							<td>公司详细地址</td>
-							<td>公司详细地址内容12345</td>
-						</tr>
-					  </table>
+						<table class="table table-bordered table-striped"  width="800px">
+							<tr>
+								<td>公司名称</td>
+								<td>{{seller.name}}</td>
+							</tr>
+							<tr>
+								<td>公司手机</td>
+								<td>{{seller.mobile}}</td>
+							</tr>
+							<tr>
+								<td>公司电话</td>
+								<td>{{seller.telephone}}</td>
+							</tr>
+							<tr>
+								<td>公司详细地址</td>
+								<td>{{seller.addressDetail}}</td>
+							</tr>
+						</table>
 					</div>
 					<div class="tab-pane fade" id="linkman">
 						<br>
 						<table class="table table-bordered table-striped" >
-						<tr>
-							<td>联系人姓名</td>
-							<td>Myxq</td>
-						</tr>
-						<tr>
-							<td>联系人QQ</td>
-							<td>644346732</td>
-						</tr>
-						<tr>
-							<td>联系人手机</td>
-							<td>138****5643</td>
-						</tr>
-						<tr>
-							<td>联系人E-Mail</td>
-							<td>644346732@qq.com</td>
-						</tr>
-					  </table>
+							<tr>
+								<td>联系人姓名</td>
+								<td>{{seller.linkmanName}}</td>
+							</tr>
+							<tr>
+								<td>联系人QQ</td>
+								<td>{{seller.linkmanQq}}</td>
+							</tr>
+							<tr>
+								<td>联系人手机</td>
+								<td>{{seller.linkmanMobile}}</td>
+							</tr>
+							<tr>
+								<td>联系人E-Mail</td>
+								<td>{{seller.linkmanEmail}}</td>
+							</tr>
+						</table>
 					</div>
 					<div class="tab-pane fade" id="certificate">
 						<br>
 						<table class="table table-bordered table-striped" >
 							<tr>
 								<td>营业执照号</td>
-								<td>6*************8</td>
+								<td>{{seller.licenseNumber}}</td>
 							</tr>
 							<tr>
 								<td>税务登记证号</td>
-								<td>6***********3</td>
+								<td>{{seller.taxNumber}}</td>
 							</tr>
 
 						</table>
@@ -154,11 +158,11 @@
 						<table class="table table-bordered table-striped" >
 							<tr>
 								<td>法定代表人</td>
-								<td>FMJava</td>
+								<td>{{seller.legalPerson}}</td>
 							</tr>
 							<tr>
 								<td>法定代表人身份证号</td>
-								<td>F****************2X</td>
+								<td>{{seller.legalPersonCardId}}</td>
 							</tr>
 						</table>
 					</div>
@@ -167,11 +171,11 @@
 						<table class="table table-bordered table-striped" >
 							<tr>
 								<td>开户行名称</td>
-								<td>中国工商银行</td>
+								<td>{{seller.bankUser}}</td>
 							</tr>
 							<tr>
 								<td>开户行支行</td>
-								<td>**支行</td>
+								<td>{{seller.bankName}}</td>
 							</tr>
 							<tr>
 								<td>银行账号</td>
@@ -182,10 +186,10 @@
 					</div>
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">审核通过</button>
-				<button class="btn btn-danger"  data-dismiss="modal" aria-hidden="true">审核未通过</button>
-				<button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">关闭商家</button>
-				<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+				<button class="btn btn-success" data-dismiss="modal" @click="updateStatus(seller.sellerId,'1')" aria-hidden="true">审核通过</button>
+				<button class="btn btn-danger"  data-dismiss="modal" @click="updateStatus(seller.sellerId,'2')" aria-hidden="true">审核未通过</button>
+				<button class="btn btn-danger" data-dismiss="modal" @click="updateStatus(seller.sellerId,'3')" aria-hidden="true">关闭商家</button>
+				<button class="btn btn-default" data-dismiss="modal"  aria-hidden="true">关闭</button>
 			</div>
 		  </div>
 	  </div>
@@ -201,8 +205,8 @@
 		el: "#app",
 		data:{
 			sellerList:[],
-			// seller:{},
-			searchSeller:{},
+			seller:{},//对象实体
+			searchSeller:{},//查询条件实体
 			page: 1,  //显示的是哪一页
 			pageSize: 10, //每一页显示的数据条数
 			total: 0, //记录总数
@@ -222,7 +226,32 @@
 						}).catch(function (reason) {
 					console.log(reason)
 				});
+			},
+			detail:function (id) {
+				var _this=this;
+				axios.get("/seller/findOne.do?id="+id).then(function (response) {
+					//取服务端响应的结果
+					_this.seller =response.data;
+					console.log(response.data);
+				}).catch(function (reason) {
+					console.log(reason);
+				})
+			},
+			updateStatus:function (id,status) {
+				var _this=this;
+				axios.post("/seller/updateStatusById.do?sellerId="+id+"&status="+status)
+						.then(function (response) {
+							if(response.data.success){
+								alert(response.data.message);
+								_this.pageHandler(1);
+							}else{
+								alert(response.data.message)
+							}
+						}).catch(function (reason) {
+					console.log(reason)
+				});
 			}
+
 		},
 		created: function () {
 			this.pageHandler(1);
