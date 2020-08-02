@@ -10,12 +10,13 @@
     <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
     <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="../plugins/pageination/zpageNav.css">
 	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
 </head>
 
 <body class="hold-transition skin-red sidebar-mini"  >
-
+<div id="app">
   <div class="box-header with-border" style="height: 64.5px;line-height: 54px;">
 		<h3 class="box-title">商家审核</h3>
   </div>
@@ -25,9 +26,9 @@
 	<!--工具栏-->
 	<div class="box-tools pull-right">
 		<div class="has-feedback">
-			公司名称：<input  >
-			店铺名称： <input  >
-			<button class="btn btn-default" >查询</button>
+			公司名称：<input  v-model="searchSeller.name"/>
+			店铺名称： <input v-model="searchSeller.nickName" />
+			<button class="btn btn-default" @click="pageHandler(1)">查询</button>
 		</div>
 	</div>
 	<!--数据列表-->
@@ -46,56 +47,30 @@
 			  </tr>
 		  </thead>
 		  <tbody>
-			  <tr>
-				  <td><input  type="checkbox"></td>
-				  <td>1</td>
-				  <td>公司名称公司名称1</td>
-				  <td>店铺名称1</td>
-				  <td>Myxq1</td>
-				  <td>138****5643</td>
-				  <td class="text-center">
-					  <button type="button"
-							  class="btn bg-olive btn-xs"
-							  data-toggle="modal"
-							  data-target="#sellerModal"
-					  >详情</button>
-				  </td>
-			  </tr>
-			  <tr>
-				  <td><input  type="checkbox"></td>
-				  <td>2</td>
-				  <td>公司名称公司名称2</td>
-				  <td>店铺名称2</td>
-				  <td>Myxq2</td>
-				  <td>138****5643</td>
-				  <td class="text-center">
-					  <button type="button"
-							  class="btn bg-olive btn-xs"
-							  data-toggle="modal"
-							  data-target="#sellerModal"
-					  >详情</button>
-				  </td>
-			  </tr>
-			  <tr>
-				  <td><input  type="checkbox"></td>
-				  <td>3</td>
-				  <td>公司名称公司名称3</td>
-				  <td>店铺名称3</td>
-				  <td>Myxq3</td>
-				  <td>138****5643</td>
-				  <td class="text-center">
-					  <button type="button"
-							  class="btn bg-olive btn-xs"
-							  data-toggle="modal"
-							  data-target="#sellerModal"
-					  >详情</button>
-				  </td>
-			  </tr>
+		  <tr v-for="entity in sellerList">
+			  <td><input  type="checkbox"></td>
+			  <td>{{entity.sellerId}}</td>
+			  <td>{{entity.name}}</td>
+			  <td>{{entity.nickName}}</td>
+			  <td>{{entity.linkmanName}}</td>
+			  <td>{{entity.linkmanMobile}}</td>
+
+			  <td class="text-center">
+				  <button type="button" class="btn bg-olive btn-xs"
+						  data-toggle="modal" data-target="#sellerModal" >
+					  详情
+				  </button>
+			  </td>
+		  </tr>
 
 		  </tbody>
 	</table>
 
 	</div>
+	  <!--分页-->
+	  <zpagenav v-bind:page="page" v-bind:page-size="pageSize" v-bind:total="total"
+				v-bind:max-page="maxPage"  v-on:pagehandler="pageHandler">
+	  </zpagenav>
   </div>
   <!-- 商家详情 -->
   <div class="modal fade"
@@ -215,6 +190,43 @@
 		  </div>
 	  </div>
   </div></div>
+</div>
 </body>
-
+<script type="text/javascript" src="../plugins/vue/vuejs-2.5.16.js"></script>
+<script type="text/javascript" src="../plugins/vue/axios-0.18.0.js"></script>
+<script type="text/javascript" src="../plugins/pageination/zpageNav.js"></script>
+<script type="text/javascript" src="../plugins/vue/qs.js"></script>
+<script>
+	new Vue({
+		el: "#app",
+		data:{
+			sellerList:[],
+			// seller:{},
+			searchSeller:{},
+			page: 1,  //显示的是哪一页
+			pageSize: 10, //每一页显示的数据条数
+			total: 0, //记录总数
+			maxPage:9,
+		},
+		methods: {
+			pageHandler:function (page) {
+				this.page=page;
+				var _this=this;
+				this.searchSeller.status=0;
+				axios.post("/seller/findPage.do?page="+this.page+"&pageSize="+this.pageSize,this.searchSeller)
+						.then(function (response) {
+							// console.log(_this.searchSeller);
+							// alert(response.data.total)
+							_this.total=response.data.total;
+							_this.sellerList=response.data.pageList;//对象集合 穿个对象集合
+						}).catch(function (reason) {
+					console.log(reason)
+				});
+			}
+		},
+		created: function () {
+			this.pageHandler(1);
+		}
+	});
+</script>
 </html>
