@@ -8,4 +8,6 @@ public interface itemCatService {
 
     public List<ItemCat> findByParentId(Long parentId);
 
+    //模板
+    ItemCat findOne(Long id);
 }

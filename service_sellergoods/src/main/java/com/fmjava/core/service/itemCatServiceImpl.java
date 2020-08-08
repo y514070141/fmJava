@@ -21,5 +21,10 @@ public class itemCatServiceImpl implements itemCatService{
         return itemCats;
     }
 
+    @Override
+    public ItemCat findOne(Long id) {
+        return catDao.selectByPrimaryKey(id);
+    }
+
 
 }

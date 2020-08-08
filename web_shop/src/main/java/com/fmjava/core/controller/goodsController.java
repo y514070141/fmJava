@@ -20,4 +20,9 @@ public class goodsController {
         return itemCatService.findByParentId(id);
     }
 
+    @RequestMapping("/findOne")
+    public ItemCat findOne(Long id){//查找模板
+        return itemCatService.findOne(id);
+    }
+
 }

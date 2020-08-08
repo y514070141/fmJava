@@ -48,7 +48,7 @@
 							<table>
 								<tr>
 									<td>
-										<select class="form-control">
+										<select class="form-control" v-model="cateSelect1" @click="change(1)">
 											<option :value="-1">请选择分类</option>
 											<option :value="category.id" v-for="category in categoryList1">
 												{{category.name}}
@@ -56,13 +56,23 @@
 										</select>
 									</td>
 									<td>
-										<select class="form-control select-sm" ></select>
+										<select class="form-control" v-model="cateSelect2" @click="change(2)">
+											<option :value="-1">请选择分类</option>
+											<option :value="category.id" v-for="category in categoryList2">
+												{{category.name}}
+											</option>
+										</select>
 									</td>
 									<td>
-										<select class="form-control select-sm" ></select>
+										<select class="form-control" v-model="cateSelect3" @click="change(3)">
+											<option :value="-1">请选择分类</option>
+											<option :value="category.id" v-for="category in categoryList3">
+												{{category.name}}
+											</option>
+										</select>
 									</td>
 									<td>
-										模板ID:19
+										模板ID:{{typeId}}
 									</td>
 								</tr>
 							</table>
