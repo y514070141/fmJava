@@ -20,7 +20,7 @@
 </head>
 
 <body class="hold-transition skin-red sidebar-mini" >
-
+<div id="app">
 <!-- 正文区域 -->
 <section class="content">
 	<div class="box-body">
@@ -48,7 +48,12 @@
 							<table>
 								<tr>
 									<td>
-										<select class="form-control" ></select>
+										<select class="form-control">
+											<option :value="-1">请选择分类</option>
+											<option :value="category.id" v-for="category in categoryList1">
+												{{category.name}}
+											</option>
+										</select>
 									</td>
 									<td>
 										<select class="form-control select-sm" ></select>
@@ -269,7 +274,7 @@
 	  </div>
 	</div>
 </div>
-       
+</div>
 </body>
 <script type="text/javascript">
 	//初始化富文本编程器
@@ -278,5 +283,7 @@
 
 	});
 </script>
-
+<script type="text/javascript" src="../plugins/vue/vuejs-2.5.16.js"></script>
+<script type="text/javascript" src="../plugins/vue/axios-0.18.0.js"></script>
+<script type="text/javascript" src="../js/goods.js"></script>
 </html>
