@@ -72,7 +72,7 @@
 										</select>
 									</td>
 									<td>
-										模板ID:{{typeId}}
+										模板ID:{{tempType}}
 									</td>
 								</tr>
 							</table>
@@ -82,11 +82,17 @@
 						   <input type="text" class="form-control" placeholder="商品名称" value="">
 					   </div>
 					   <div class="col-md-2 title">品牌</div>
-					   <div class="col-md-10 data">
-						  <select class="form-control" ></select>
-					   </div>
+						<div class="col-md-10 data">
+							<select class="form-control" >
+								<option :value="-1">请选择品牌</option>
+								<option :value="brand.id" v-for="brand in brandList">
+									{{brand.name}}
+								</option>
+							</select>
+						</div>
 
-					   <div class="col-md-2 title">副标题</div>
+
+						<div class="col-md-2 title">副标题</div>
 					   <div class="col-md-10 data">
 						   <input type="text" class="form-control"   placeholder="副标题" value="">
 					   </div>

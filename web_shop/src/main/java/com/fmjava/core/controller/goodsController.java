@@ -21,7 +21,7 @@ public class goodsController {
     }
 
     @RequestMapping("/findOne")
-    public ItemCat findOne(Long id){//查找模板
+    public ItemCat findOne(Long id){//查找模板id
         return itemCatService.findOne(id);
     }
 

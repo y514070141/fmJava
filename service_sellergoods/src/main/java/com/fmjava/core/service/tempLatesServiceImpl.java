@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.fmjava.core.dao.template.TypeTemplateDao;
 import com.fmjava.core.pojo.entity.pageResult;
+import com.fmjava.core.pojo.good.Brand;
 import com.fmjava.core.pojo.template.TypeTemplate;
 import com.fmjava.core.pojo.template.TypeTemplateQuery;
 import com.github.pagehelper.Page;
@@ -40,6 +41,11 @@ public class tempLatesServiceImpl implements tempLatesService{
     @Override
     public void save(TypeTemplate typeTemplate) {
          typeTemplateDao.insertSelective(typeTemplate);
+    }
+
+    @Override
+    public TypeTemplate findOne(Long id) {
+        return typeTemplateDao.selectByPrimaryKey(id);
     }
 
 

@@ -1,6 +1,7 @@
 package com.fmjava.core.service;
 
 import com.fmjava.core.pojo.entity.pageResult;
+import com.fmjava.core.pojo.good.Brand;
 import com.fmjava.core.pojo.template.TypeTemplate;
 
 public interface tempLatesService {
@@ -20,4 +21,6 @@ public interface tempLatesService {
      */
     void save(TypeTemplate typeTemplate);
 
+    //品牌模板
+    TypeTemplate findOne(Long id);
 }

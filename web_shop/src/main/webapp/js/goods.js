@@ -9,7 +9,10 @@ new Vue({
        cateSelect2:-1,
        cateSelect3:-1,
 
-       typeId:0//模板id
+       tempType:0,//模板id
+
+       brandList:[],
+
    },
     methods:{
        loadData:function (id) {
@@ -35,7 +38,7 @@ new Vue({
                 this.categoryList2=[];
                 this.cateSelect3=-1;
                 this.categoryList3=[];
-                
+
                 this.grade=grade+1;
                 this.loadData(this.cateSelect1);
             }
@@ -51,11 +54,31 @@ new Vue({
                 var _this=this;
                 axios.post("/item_cat/findOne.do?id="+this.cateSelect3)
                     .then(function (response) {
-                        _this.typeId=response.data.typeId;
+                        _this.tempType=response.data.typeId;
                     }).catch(function (reason) {
                     alert(reason)
                 });
             }
+        }
+    },
+    watch: { //监听属性的变化   切记在方法 外面
+        tempType:function(newValue, oldValue) {
+            // alert(newValue)
+            var _this = this;
+            _this.brandList =[];
+            _this.selBrand = -1;
+            axios.post("/temp/findOne.do?id="+newValue)
+                .then(function (response) {
+                    console.log(response.data);
+                    if(response.data.brandIds){
+                        _this.brandList = JSON.parse(response.data.brandIds);
+                    }else{
+                        alert("brandIds为空")
+                    }
+                    console.log(_this.brandList);
+                }).catch(function (reason) {
+                console.log(reason);
+            });
         }
     },
     created:function () {
