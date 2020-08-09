@@ -47,7 +47,7 @@ new Vue({
                 this.categoryList3=[];
 
                 this.grade=grade+1;
-                this.loadData(this.cateSelect1);
+                this.loadData(this.cateSelect2);
             }
             if(grade==3){
                 //处理模板
