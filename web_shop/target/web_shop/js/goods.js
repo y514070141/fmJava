@@ -59,6 +59,19 @@ new Vue({
                     alert(reason)
                 });
             }
+        },
+        uploadFile:function () {//上传文件到 fastdfs
+            var formData=new FormData();
+            formData.append("file",file.files[0]);//id=file
+            var instance=axios.create({
+               withCredentials:true//必须打开
+            });
+            instance.post("/upload/uploadFile.do",formData)
+                .then(function (response) {
+                    alert(response.data)
+                }).catch(function (reason) {
+                alert("have a question uploadFile!")
+            });
         }
     },
     watch: { //监听属性的变化   切记在方法 外面
