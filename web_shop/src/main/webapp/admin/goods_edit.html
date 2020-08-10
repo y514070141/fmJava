@@ -138,10 +138,10 @@
 								</tr>
 						  </thead>
 						  <tbody>
-							  <tr>
-									<td></td>
+							  <tr v-for="imageItem in imageList">
+									<td>{{imageItem.color}}</td>
 									<td>
-										<img alt="" src="" width="100px" height="100px">
+										<img alt="" :src="imageItem.url" width="100px" height="100px">
 									</td>
 									<td>
 										 <button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
@@ -263,7 +263,7 @@
 			<table class="table table-bordered table-striped">
 		      	<tr>
 		      		<td>颜色</td>
-		      		<td><input  class="form-control" placeholder="颜色" ></td>
+		      		<td><input v-model="imageObj.color" class="form-control" placeholder="颜色" ></td>
 		      	</tr>			    
 		      	<tr>
 		      		<td>图片</td>
@@ -276,7 +276,7 @@
 					            <button class="btn btn-primary" @click="uploadFile()" type="button" style="margin-top: 10px;">上传</button>
 					            </td>
 								<td>
-									<img  src="#"  width="200px" height="200px" alt=""/>
+									<img  :src="imageObj.url"  width="200px" height="200px" alt=""/>
 								</td>
 							</tr>						
 						</table>
@@ -285,7 +285,7 @@
 			 </table>
 		</div>
 		<div class="modal-footer">						
-			<button class="btn btn-success"  data-dismiss="modal" aria-hidden="true">保存</button>
+			<button class="btn btn-success" @click="saveImage()" data-dismiss="modal" aria-hidden="true">保存</button>
 			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
 		</div>
 	  </div>

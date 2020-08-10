@@ -13,6 +13,12 @@ new Vue({
 
        brandList:[],
 
+
+       imageObj:{
+           color:'',
+           url:''
+       },
+       imageList:[]
    },
     methods:{
        loadData:function (id) {
@@ -61,6 +67,7 @@ new Vue({
             }
         },
         uploadFile:function () {//上传文件到 fastdfs
+           var _this=this;
             var formData=new FormData();
             formData.append("file",file.files[0]);//id=file
             var instance=axios.create({
@@ -68,10 +75,25 @@ new Vue({
             });
             instance.post("/upload/uploadFile.do",formData)
                 .then(function (response) {
-                    alert(response.data)
+                    // alert(response.data)
+                    if(response.data.success)
+                        // alert(response.data.message);
+                        _this.imageObj.url=response.data.message;
+                    else
+                        alert(response.data.message);
                 }).catch(function (reason) {
                 alert("have a question uploadFile!")
             });
+        },
+        saveImage:function () {
+            // if( this.imageObj.url == '' || this.imageObj.color == ''){
+            //     alert("请输入图片颜色或者选择图片");
+            //     return;
+            // }
+            var obj={color:this.imageObj.color,url:this.imageObj.url};
+            this.imageList.push(obj);
+            this.imageObj.color='';
+            this.imageObj.url='';
         }
     },
     watch: { //监听属性的变化   切记在方法 外面
