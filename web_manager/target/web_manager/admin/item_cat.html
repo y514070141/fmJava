@@ -64,7 +64,7 @@
 					<td>
 						{{item.typeId}}
 					</td>
-					<td class="text-center">
+					<td class="text-center"><!--grade！=3意思是等于3隐藏-->
 						<button type="button"  class="btn bg-olive btn-xs" v-if="grade!=3" @click="setGrade(grade+1);nextGrade(item)">查询下级</button>
 						<button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" >修改</button>
 					</td>

@@ -130,7 +130,10 @@ new Vue({
                 }).catch(function (reason) {
                 console.log(reason);
             });
-        }
+        },
+
+
+
     },
     created:function () {
         this.loadData(0);
