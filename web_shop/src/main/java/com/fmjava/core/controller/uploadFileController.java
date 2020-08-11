@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/upload")
 public class uploadFileController {
@@ -40,6 +43,26 @@ public class uploadFileController {
         }catch (Exception e){
             return new Result("删除失败",false);
         }
+    }
+
+    @RequestMapping("/uploadImage")
+    public Map uploadImage(MultipartFile upfile) throws Exception {
+        try {
+            FastDfsClient fastDFS = new FastDfsClient("classpath:fastDFS/fdfs_client.conf");
+            //上传文件返回文件保存的路径和文件名
+            String path = fastDFS.uploadFile(upfile.getBytes(), upfile.getOriginalFilename(), upfile.getSize());
+            //拼接上服务器的地址返回给前端
+            String url  = file_server_url + path;
+            Map<String ,Object > result = new HashMap<>();
+            result.put("state","SUCCESS");
+            result.put("url",url);
+            result.put("title",upfile.getOriginalFilename());
+            result.put("original",upfile.getOriginalFilename());
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

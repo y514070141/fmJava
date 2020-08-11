@@ -86,10 +86,10 @@ new Vue({
             });
         },
         saveImage:function () {
-            // if( this.imageObj.url == '' || this.imageObj.color == ''){
-            //     alert("请输入图片颜色或者选择图片");
-            //     return;
-            // }
+            if( this.imageObj.url == '' || this.imageObj.color == ''){
+                alert("请输入图片颜色或者选择图片");
+                return;
+            }
             var obj={color:this.imageObj.color,url:this.imageObj.url};
             this.imageList.push(obj);
             this.imageObj.color='';
