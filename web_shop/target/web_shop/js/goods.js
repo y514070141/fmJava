@@ -94,6 +94,22 @@ new Vue({
             this.imageList.push(obj);
             this.imageObj.color='';
             this.imageObj.url='';
+        },
+        deleteImg:function (url,index) {
+            var _this=this;
+            console.log("url="+url);
+            console.log("index="+index);
+            axios.get("/upload/deleteImg.do?url="+url)
+                .then(function (response) {
+                    if(response.data.success) {
+                        alert(response.data.message);
+                        var idx=_this.imageList.indexOf(index);//截取位置
+                        _this.imageList.splice(idx, 1);
+                    } else
+                        alert(response.data.message)
+            }).catch(function (reason) {
+                alert(reason)
+            });
         }
     },
     watch: { //监听属性的变化   切记在方法 外面

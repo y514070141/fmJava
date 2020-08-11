@@ -138,13 +138,13 @@
 								</tr>
 						  </thead>
 						  <tbody>
-							  <tr v-for="imageItem in imageList">
+							  <tr v-for="(imageItem,index) in imageList">
 									<td>{{imageItem.color}}</td>
 									<td>
 										<img alt="" :src="imageItem.url" width="100px" height="100px">
 									</td>
 									<td>
-										 <button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
+										 <button type="button" @click="deleteImg(imageItem.url,index)" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
 									 </td>
 							  </tr>
 							</tbody>

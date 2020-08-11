@@ -24,7 +24,21 @@ public class uploadFileController {
             return new Result(url,true);
         }catch (Exception e){
             return new Result("上传失败",true);
+        }
+    }
 
+    @RequestMapping("/deleteImg")
+    public Result deleteImg(String url){
+        try{
+            String path=url.substring(file_server_url.length());
+            FastDfsClient fastDfsClient = new FastDfsClient("classpath:fastDFS/fdfs_client.conf");
+            Integer integer = fastDfsClient.delete_file(path);
+            if(integer==0)
+                return new Result("删除成功",true);
+            else
+                return new Result("删除失败",false);
+        }catch (Exception e){
+            return new Result("删除失败",false);
         }
     }
 
